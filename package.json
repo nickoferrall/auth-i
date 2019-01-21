@@ -1,6 +1,11 @@
 {
   "dependencies": {
-    "knex": "^0.16.3"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "knex": "^0.16.3",
+    "nodemon": "^1.18.9",
+    "sqlite3": "^4.0.6"
   },
   "name": "auth-i",
   "description": "## Topics",
@@ -8,7 +13,7 @@
   "main": "knexfile.js",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon index.js"
   },
   "repository": {
     "type": "git",
