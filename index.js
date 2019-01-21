@@ -34,93 +34,9 @@ server.get('/', (req, res) => {
   res.send("It's alive.");
 });
 
-server.post('/api/register', (req, res) => {
-  const creds = req.body;
-  const hash = bcrypt.hashSync(creds.password, 14);
-  creds.password = hash;
-
-  db('users')
-    .insert(creds)
-    .then(ids => {
-      const id = ids[0];
-      req.session.username = user.username;
-      res.status(201).json({ newUserId: id });
-    })
-    .catch(err => res.status(500).json(err));
-});
-
-server.get('/api/register', (req, res) => {
-  db('users')
-    .select('id', 'username', 'password')
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.status(err));
-});
-
-server.post('/api/login', (req, res) => {
-  const creds = req.body;
-  db('users')
-    .where({ username: creds.username })
-    .first()
-    .then(user => {
-      if (user && bcrypt.compareSync(creds.password, user.password)) {
-        req.session.username = user.username; // on login, any info that we want stored to the session, we add to the req.session object
-        res.status(200).json({ message: 'Logged in' });
-      } else {
-        res.status(401).json({ message: 'You shall not pass!' });
-      }
-    })
-    .catch(err => res.status(500).json(err));
-});
-
-server.get('/logout', (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.send('You cannot leave!');
-      } else {
-        res.send('Goodbye!');
-      }
-    });
-  }
-});
-
-function protected(req, res, next) {
-  if (req.session && req.session.username) {
-    // this checks if the user is logged in and if they has a username
-    next();
-  } else {
-    res.status(401).json({ message: 'Not authorised.' });
-  }
-}
-
-server.get('/api/users', protected, (req, res) => {
-  if (req.session.username) {
-    // do the below but as middleware
-    db('users')
-      .select('id', 'username', 'password')
-      .then(users => {
-        res.status(200).json(users);
-      })
-      .catch(err => res.status(500).send(err));
-  } else {
-    res.status(401).send('Not authorised.');
-  }
-});
-
-server.get('/api/restricted/*', protected, (req, res) => {
-  if (req.session.username) {
-    // do the below but as middleware
-    db('users')
-      .select('id', 'username', 'password')
-      .then(users => {
-        res.status(200).json(users);
-      })
-      .catch(err => res.status(500).send(err));
-  } else {
-    res.status(401).send('Not authorised.');
-  }
-});
+const routes = require('./routes/actionRoutes');
+server.use('/api', routes);
 
 server.listen(3300, () => console.log('Working!'));
+
+module.exports = server;
