@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-session-knex": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "knex": "^0.16.3",
+    "nodemon": "^1.18.9",
+    "sqlite3": "^4.0.6"
+  },
+  "name": "auth-i",
+  "description": "## Topics",
+  "version": "1.0.0",
+  "main": "knexfile.js",
+  "devDependencies": {},
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickoferrall/auth-i.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickoferrall/auth-i/issues"
+  },
+  "homepage": "https://github.com/nickoferrall/auth-i#readme"
+}
